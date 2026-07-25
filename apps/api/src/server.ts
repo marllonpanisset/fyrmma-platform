@@ -1,12 +1,10 @@
 import { buildApp } from "./app.js";
-
-const PORT = Number(process.env.PORT) || 3001;
-const HOST = process.env.HOST || "0.0.0.0";
+import { env } from "./config/index.js";
 
 async function start() {
   const fastify = await buildApp();
   try {
-    await fastify.listen({ port: PORT, host: HOST });
+    await fastify.listen({ port: env.PORT, host: env.HOST });
   } catch (error) {
     fastify.log.error(error);
     process.exit(1);
