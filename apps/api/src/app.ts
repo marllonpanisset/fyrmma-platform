@@ -1,20 +1,14 @@
 import Fastify from "fastify";
-import { prisma } from "@fyrmma/database";
-import type { HealthStatus, ReadyStatus } from "@fyrmma/shared";
+import prismaPlugin from "./plugins/prisma.js";
+import { healthRoutes } from "./routes/health.js";
 
 export async function buildApp() {
   const fastify = Fastify({
     logger: true,
   });
 
-  fastify.get<{ Reply: HealthStatus }>("/health", async () => {
-    return { status: "ok" };
-  });
-
-  fastify.get<{ Reply: ReadyStatus }>("/health/ready", async () => {
-    await prisma.$queryRaw`SELECT 1`;
-    return { status: "ok" };
-  });
+  await fastify.register(prismaPlugin);
+  await fastify.register(healthRoutes);
 
   return fastify;
 }
