@@ -1,0 +1,52 @@
+--- old schema.prisma
++++ new schema.prisma
+@@
+-<previous content>
++// Prisma schema for Fyrmma Sprint 1
++generator client {
++  provider = "prisma-client-js"
++}
++
++datasource db {
++  provider = "postgresql"
++  url      = env("DATABASE_URL")
++}
++
++model Organization {
++  id        String   @id @default(uuid())
++  name      String
++  slug      String   @unique
++  createdAt DateTime @default(now())
++  updatedAt DateTime @updatedAt
++  users     User[]
++}
++
++model User {
++  id            String   @id @default(uuid())
++  organizationId String
++  name          String?
++  email         String
++  passwordHash  String
++  role          UserRole @default(MEMBER)
++  createdAt     DateTime @default(now())
++  updatedAt     DateTime @updatedAt
++  organization  Organization @relation(fields: [organizationId], references: [id])
++  refreshTokens RefreshToken[]
++  @@unique([organizationId, email])
++}
++
++model RefreshToken {
++  id        String   @id @default(uuid())
++  userId    String
++  tokenHash String   @unique
++  expiresAt DateTime
++  revokedAt DateTime?
++  createdAt DateTime @default(now())
++  user      User     @relation(fields: [userId], references: [id])
++}
++
++enum UserRole {
++  OWNER
++  ADMIN
++  MEMBER
++}
