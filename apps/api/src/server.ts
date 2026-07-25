@@ -9,17 +9,14 @@ const fastify = Fastify({
   logger: true,
 });
 
-fastify.get<RouteHandler<HealthStatus>>("/health", async () => {
+fastify.get<{ Reply: HealthStatus }>("/health", async () => {
   return { status: "ok" };
 });
 
-fastify.get<RouteHandler<ReadyStatus>>("/health/ready", async () => {
+fastify.get<{ Reply: ReadyStatus }>("/health/ready", async () => {
   await prisma.$queryRaw`SELECT 1`;
   return { status: "ok" };
 });
-
-// Helper type to ensure Fastify routes are correctly typed without conflicting with the handler signature
-type RouteHandler<T> = (request: any, reply: any) => Promise<T> | T;
 
 async function start() {
   try {
