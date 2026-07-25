@@ -1,0 +1,16 @@
+{
+  "name": "fyrmma-platform",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:dashboard": "pnpm --filter @fyrmma/dashboard dev",
+    "dev:api": "pnpm --filter @fyrmma/api dev",
+    "build": "pnpm -r build",
+    "db:generate": "pnpm --filter @fyrmma/database generate",
+    "db:migrate": "pnpm --filter @fyrmma/database migrate:dev",
+    "db:push": "pnpm --filter @fyrmma/database db:push"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
