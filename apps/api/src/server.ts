@@ -1,24 +1,10 @@
-import Fastify from "fastify";
-import { prisma } from "@fyrmma/database";
-import type { HealthStatus, ReadyStatus } from "@fyrmma/shared";
+import { buildApp } from "./app.js";
 
 const PORT = Number(process.env.PORT) || 3001;
 const HOST = process.env.HOST || "0.0.0.0";
 
-const fastify = Fastify({
-  logger: true,
-});
-
-fastify.get<{ Reply: HealthStatus }>("/health", async () => {
-  return { status: "ok" };
-});
-
-fastify.get<{ Reply: ReadyStatus }>("/health/ready", async () => {
-  await prisma.$queryRaw`SELECT 1`;
-  return { status: "ok" };
-});
-
 async function start() {
+  const fastify = await buildApp();
   try {
     await fastify.listen({ port: PORT, host: HOST });
   } catch (error) {
