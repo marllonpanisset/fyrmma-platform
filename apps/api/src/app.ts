@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import prismaPlugin from "./plugins/prisma.js";
 import errorHandlerPlugin from "./plugins/error-handler.js";
 import requestContextPlugin from "./plugins/request-context.js";
+import securityPlugin from "./plugins/security.js";
 import { healthRoutes } from "./routes/health.js";
 import { env } from "./config/index.js";
 
@@ -16,7 +17,7 @@ export async function buildApp() {
 
   await fastify.register(prismaPlugin);
   await fastify.register(errorHandlerPlugin);
-
+  await fastify.register(securityPlugin);
   await fastify.register(requestContextPlugin);
   await fastify.register(healthRoutes);
 

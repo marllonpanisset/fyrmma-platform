@@ -9,10 +9,13 @@
     "start": "node --env-file=../../.env dist/server.js"
   },
   "dependencies": {
+    "@fastify/cors": "^11.3.0",
+    "@fastify/helmet": "^13.1.0",
     "@fyrmma/database": "workspace:*",
     "@fyrmma/shared": "workspace:*",
     "fastify": "^5.4.0",
-    "fastify-plugin": "^6.0.0"
+    "fastify-plugin": "^6.0.0",
+    "fastify-type-provider-zod": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.13.3",
